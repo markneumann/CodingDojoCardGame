@@ -1,23 +1,31 @@
-function Ninja(name, age, prevOccupation) {
-  // PRIVATE
-  var self = this;
-  var privateVar = "This is a private variable";
-  var privateMethod = function() {
-    console.log("This is a private method for " + self.name);
-    //console.log(this); // What will print here?
-  };
-  // PUBLIC
-  this.name = name;
-  this.age = age;
-  this.prevOccupation = prevOccupation;
-
-
-  // PUBLIC METHODS DECLARED HERE
-  this.introduce = function() {
-    console.log("Hi my name is " + this.name + ". I used to be a " + this.prevOccupation + " and now I'm a Ninja!");
-    privateMethod();
-    console.log(privateVar);
-  };
+function Ninja(name){
+  this.name = name;   // creating instance variables
+  this.distance_traveled = 0;
 }
-var Andrew = new Ninja("Andrew", 24, "TFA Teacher");
-Andrew.introduce();
+// creating an instance method
+Ninja.prototype.walk = function() {
+    console.log(this.name + ' is walking');
+    this.distance_traveled += 1;
+    return this;      // have this method return its own object
+  };
+// creating an instance method
+Ninja.prototype.run = function() {
+    console.log(this.name + ' is running');
+    this.distance_traveled += 5;
+    this.displayDistanceTraveled();
+    return this;      // have this method return its own object
+  };
+//another instance method
+Ninja.prototype.displayDistanceTraveled = function() {
+    console.log('distance traveled: ', this.distance_traveled);
+}
+
+// creating instances/objects
+ninja1 = new Ninja('Jay');
+ninja2 = new Ninja('Michael');
+ninja3 = new Ninja('Andrew');
+
+ninja1.walk().run().walk().run().run();  // because walk/run returns itself, we can chain these methods
+
+// you can also log ninja1 and study it
+console.log(ninja1);
