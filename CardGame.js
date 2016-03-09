@@ -12,11 +12,18 @@ $(document).ready(function(){
   $("#reset").click(function() {
     console.log("Reset Button Clicked");
     aDeck.reset();
+    player1.reset();
   });
 
   $("#take").click(function() {
     console.log("Take Button Clicked");
     player1.take();
+  });
+
+  $("#discard").click(function() {
+    console.log("Discard Button Clicked");
+    var discardCard = prompt("Which card?", "1,2..");
+    player1.discard(discardCard);
   });
 
 });
@@ -43,17 +50,18 @@ var showCards = function(){
 var showHand = function(theseCards){
   var theHand = document.getElementById('player1');
   theHand.innerHTML = '';
+  console.log("theHand " + theHand);
   for(var i=0; i < theseCards.length; i++){
-		div = document.createElement('player1');
-		div.className = 'hand';
+		div2 = document.createElement('hand1');
+		div2.className = 'card';
     var ascii_char;
 		if(theseCards[i].suit == 'Diamonds'){
 			ascii_char = '&diams;';
 		} else {
 			ascii_char = '&' + theseCards[i].suit.toLowerCase() + ';';
 		}
-		div.innerHTML = '' + theseCards[i].name + '' + ascii_char + '';
-		theCards.appendChild(div);
+		div2.innerHTML = '' + theseCards[i].name + '' + ascii_char + '';
+		theHand.appendChild(div2);
 	}
 };
 
@@ -98,26 +106,33 @@ deck.prototype.deal = function(name) { //need the player and hand, remove from t
   console.log("dealt card = " + JSON.stringify(newCard));
   aDeck.cards.splice(0,1);
   console.log("cards left = " + aDeck.cards.length);
-  showCards();
+  showCards();    //remove card from deck
   return newCard;
 };
 
-deck.prototype.return = function() { //need the card to add to the end
+deck.prototype.return = function() { //not sure if I should do this
 
 };
-
 //player
 function player(name ) {
   this.name = name;
   this.hand = [];
 
   player.prototype.take = function() { // call the deck deal method, update hand
-    alert("Take Button Clicked");
+    //alert("Take Button Clicked");
     this.hand.push(aDeck.deal('Frank'));
+    console.log("Player1 Hand is " + JSON.stringify(this.hand));
+    showHand(this.hand);
   };
 
-  player.prototype.discard = function() { //call the deck return
+  player.prototype.discard = function(whichCard) { //call the deck return
+    this.hand.splice(whichCard-1,1);
+    showHand(this.hand);
+  };
 
+  player.prototype.reset = function() { //call the deck return
+    this.hand = [];
+    showHand(this.hand);
   };
 }
 
