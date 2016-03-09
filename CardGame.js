@@ -131,9 +131,13 @@ function player(name ) {
   div3.innerHTML =  '<h3>' + name + '</h3> \
     <div id = ' + name + ' style="width:650px; height:70px; display:block;"> \
     </div> \
-    <button id="take">Take</button> \
-    <button id="discard">Discard</button> \
+    <button id= "'+ name + 'take">Take</button> \
+    <button id= "'+ name + 'discard">Discard</button> \
     <hr>';
+    // '$("#' + name + 'take").click(function) { \
+    //    console.log(name + "take button clicked"); \
+    //    this.take(); \
+     // }';
   thePlayers.appendChild(div3);
 }
 
