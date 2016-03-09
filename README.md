@@ -13,10 +13,6 @@ When loading the page, the deck of cards is shown, along with buttons to shuffle
 
 When you add a player, a new Div is created below the dealer deck, with two buttons Take (a card) and Discard (a Card).   When you take a card, it redraws the dealer deck with one less card, and shows that card in the Player area.
 
-At least it does if I hardcode one player ':-('
+## Future
 
-BUT, when I create the Take and Discard buttons dynamically with the Add Player function, I don't have a way to bind the new DOM elements to the Take and Discard functions.
-
-If you look at the code, you will see the #take and #discard hooks, but obviously, I need to have different hooks for each player I add.
-
-HELP!
+By showing the dealer deck and all player hands, it might be possible to show the odds of different hands.  For example, the dealer deck could be hidden, then the user could attempt a pair, straight, flush.  And the program could show the odds of that hand.
