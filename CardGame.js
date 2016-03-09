@@ -12,7 +12,7 @@ $(document).ready(function(){
   $("#reset").click(function() {
     console.log("Reset Button Clicked");
     aDeck.reset();
-    player1.reset();
+    //player1.reset(); //need and array of players?
   });
 
   $("#add").click(function() {
@@ -129,7 +129,7 @@ function player(name ) {
   div3 = document.createElement('name');
   //div3.className = 'player';
   /*jshint multistr: true */
-  div3.innerHTML =  '<h3>' + name + '</h3> \
+  div3.innerHTML =  '<h3>' + name + ' hand</h3> \
     <div id = ' + name + ' style="width:650px; height:70px; display:block;"> \
     </div> \
     <button id= "'+ name + 'take">Take</button> \
@@ -142,14 +142,15 @@ function player(name ) {
 }
 
 
-player.prototype.take = function() { // call the deck deal method, update hand
+player.prototype.take = function(name) { // call the deck deal method, update hand
   //alert("Take Button Clicked");
   this.hand.push(aDeck.deal(name));
   console.log(name + " Hand is " + JSON.stringify(this.hand));
   showHand(name, this.hand);
 };
 
-player.prototype.discard = function(whichCard) { //call the deck return
+player.prototype.discard = function(name,whichCard) { //call the deck return
+  console.log(name + " discards " + whichCard);
   this.hand.splice(whichCard-1,1);
   showHand(name, this.hand);
 };
@@ -173,7 +174,7 @@ player.prototype.addHandlerDiscard =  function(name) {
   $("#" + name + "discard").click(function() {
        console.log(name + "discard button clicked");
        var discardCard = prompt("Which card?", "1,2..");
-       _this.discard(name);
+       _this.discard(name, discardCard);
  });
 };
 
