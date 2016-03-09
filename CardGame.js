@@ -16,7 +16,7 @@ $(document).ready(function(){
 
   $("#take").click(function() {
     console.log("Take Button Clicked");
-    aDeck.take();
+    player1.take();
   });
 
 });
@@ -38,6 +38,25 @@ var showCards = function(){
 		theCards.appendChild(div);
 	}
 };
+
+//Draw the hand -- eventually need to refactor with showCards
+var showHand = function(theseCards){
+  var theHand = document.getElementById('player1');
+  theHand.innerHTML = '';
+  for(var i=0; i < theseCards.length; i++){
+		div = document.createElement('player1');
+		div.className = 'hand';
+    var ascii_char;
+		if(theseCards[i].suit == 'Diamonds'){
+			ascii_char = '&diams;';
+		} else {
+			ascii_char = '&' + theseCards[i].suit.toLowerCase() + ';';
+		}
+		div.innerHTML = '' + theseCards[i].name + '' + ascii_char + '';
+		theCards.appendChild(div);
+	}
+};
+
 
 //Cards
 function card(value, name, suit){
@@ -76,9 +95,10 @@ deck.prototype.reset = function () { //need to m
 
 deck.prototype.deal = function(name) { //need the player and hand, remove from top
   var newCard = aDeck.cards[0];
-  console.log("dealt card = " + newCard);
+  console.log("dealt card = " + JSON.stringify(newCard));
   aDeck.cards.splice(0,1);
   console.log("cards left = " + aDeck.cards.length);
+  showCards();
   return newCard;
 };
 
@@ -93,7 +113,7 @@ function player(name ) {
 
   player.prototype.take = function() { // call the deck deal method, update hand
     alert("Take Button Clicked");
-
+    this.hand.push(aDeck.deal('Frank'));
   };
 
   player.prototype.discard = function() { //call the deck return
@@ -102,4 +122,6 @@ function player(name ) {
 }
 
 var aDeck = new deck();
+var player1 = new player('Frank');
+
 console.log(aDeck);
