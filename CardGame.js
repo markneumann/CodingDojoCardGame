@@ -18,7 +18,7 @@ $(document).ready(function(){
   $("#add").click(function() {
     console.log("Add Player Button Clicked");
     var newPlayer = prompt("Player Name?", "John"); // need to escape input
-    newPlayer = player(newPlayer); // and check for duplicate names
+    newPlayer = new player(newPlayer); // and check for duplicate names
   });
 
   $("#take").click(function() {
@@ -31,8 +31,7 @@ $(document).ready(function(){
     var discardCard = prompt("Which card?", "1,2..");
     newPlayer.discard(discardCard);
   });
-
-});
+}); // end of document ready
 
 //Draw the cards
 var showCards = function(){
@@ -53,12 +52,12 @@ var showCards = function(){
 };
 
 //Draw the hand -- eventually need to refactor with showCards
-var showHand = function(theseCards){
-  var theHand = document.getElementById('player1');
+var showHand = function(playername, theseCards){
+  var theHand = document.getElementById(playername);
   theHand.innerHTML = '';
   console.log("theHand " + theHand);
   for(var i=0; i < theseCards.length; i++){
-		div2 = document.createElement('hand1');
+		div2 = document.createElement(playername + 'card');
 		div2.className = 'card';
     var ascii_char;
 		if(theseCards[i].suit == 'Diamonds'){
@@ -67,7 +66,8 @@ var showHand = function(theseCards){
 			ascii_char = '&' + theseCards[i].suit.toLowerCase() + ';';
 		}
 		div2.innerHTML = '' + theseCards[i].name + '' + ascii_char + '';
-		theHand.appendChild(div2);
+    console.log("div2 is " + div2);
+    theHand.appendChild(div2);
 	}
 };
 
@@ -119,6 +119,7 @@ deck.prototype.deal = function(name) { //need the player and hand, remove from t
 deck.prototype.return = function() { //not sure if I should do this
 
 };
+
 //player
 function player(name ) {
   this.name = name;
@@ -126,7 +127,7 @@ function player(name ) {
 
   var thePlayers = document.getElementById('thePlayers');
   div3 = document.createElement('name');
-  div3.className = 'player';
+  //div3.className = 'player';
   /*jshint multistr: true */
   div3.innerHTML =  '<h3>' + name + '</h3> \
     <div id = ' + name + ' style="width:650px; height:70px; display:block;"> \
@@ -134,28 +135,46 @@ function player(name ) {
     <button id= "'+ name + 'take">Take</button> \
     <button id= "'+ name + 'discard">Discard</button> \
     <hr>';
-    // '$("#' + name + 'take").click(function) { \
-    //    console.log(name + "take button clicked"); \
-    //    this.take(); \
-     // }';
   thePlayers.appendChild(div3);
+  this.addHandlerTake(name);
+  this.addHandlerDiscard(name);
+
 }
+
 
 player.prototype.take = function() { // call the deck deal method, update hand
   //alert("Take Button Clicked");
-  this.hand.push(aDeck.deal('Frank'));
-  console.log("Player1 Hand is " + JSON.stringify(this.hand));
-  showHand(this.hand);
+  this.hand.push(aDeck.deal(name));
+  console.log(name + " Hand is " + JSON.stringify(this.hand));
+  showHand(name, this.hand);
 };
 
 player.prototype.discard = function(whichCard) { //call the deck return
   this.hand.splice(whichCard-1,1);
-  showHand(this.hand);
+  showHand(name, this.hand);
 };
 
 player.prototype.reset = function() { //call the deck return
   this.hand = [];
-  showHand(this.hand);
+  showHand(name, this.hand);
+};
+
+player.prototype.addHandlerTake =  function(name) {
+  var _this = this;
+  $("#" + name + "take").click(function() {
+       console.log(name + "take button clicked");
+       console.log(this);
+       _this.take(name);
+ });
+};
+
+player.prototype.addHandlerDiscard =  function(name) {
+  var _this = this;
+  $("#" + name + "discard").click(function() {
+       console.log(name + "discard button clicked");
+       var discardCard = prompt("Which card?", "1,2..");
+       _this.discard(name);
+ });
 };
 
 var aDeck = new deck();
