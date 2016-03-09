@@ -15,15 +15,21 @@ $(document).ready(function(){
     player1.reset();
   });
 
+  $("#add").click(function() {
+    console.log("Add Player Button Clicked");
+    var newPlayer = prompt("Player Name?", "John"); // need to escape input
+    newPlayer = player(newPlayer); // and check for duplicate names
+  });
+
   $("#take").click(function() {
     console.log("Take Button Clicked");
-    player1.take();
+    newPlayer.take();
   });
 
   $("#discard").click(function() {
     console.log("Discard Button Clicked");
     var discardCard = prompt("Which card?", "1,2..");
-    player1.discard(discardCard);
+    newPlayer.discard(discardCard);
   });
 
 });
@@ -118,25 +124,37 @@ function player(name ) {
   this.name = name;
   this.hand = [];
 
-  player.prototype.take = function() { // call the deck deal method, update hand
-    //alert("Take Button Clicked");
-    this.hand.push(aDeck.deal('Frank'));
-    console.log("Player1 Hand is " + JSON.stringify(this.hand));
-    showHand(this.hand);
-  };
-
-  player.prototype.discard = function(whichCard) { //call the deck return
-    this.hand.splice(whichCard-1,1);
-    showHand(this.hand);
-  };
-
-  player.prototype.reset = function() { //call the deck return
-    this.hand = [];
-    showHand(this.hand);
-  };
+  var thePlayers = document.getElementById('thePlayers');
+  div3 = document.createElement('name');
+  div3.className = 'player';
+  /*jshint multistr: true */
+  div3.innerHTML =  '<h3>' + name + '</h3> \
+    <div id = ' + name + ' style="width:650px; height:70px; display:block;"> \
+    </div> \
+    <button id="take">Take</button> \
+    <button id="discard">Discard</button> \
+    <hr>';
+  thePlayers.appendChild(div3);
 }
 
+player.prototype.take = function() { // call the deck deal method, update hand
+  //alert("Take Button Clicked");
+  this.hand.push(aDeck.deal('Frank'));
+  console.log("Player1 Hand is " + JSON.stringify(this.hand));
+  showHand(this.hand);
+};
+
+player.prototype.discard = function(whichCard) { //call the deck return
+  this.hand.splice(whichCard-1,1);
+  showHand(this.hand);
+};
+
+player.prototype.reset = function() { //call the deck return
+  this.hand = [];
+  showHand(this.hand);
+};
+
 var aDeck = new deck();
-var player1 = new player('Frank');
+//var player1 = new player('Frank');
 
 console.log(aDeck);
