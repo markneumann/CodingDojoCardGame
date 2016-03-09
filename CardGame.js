@@ -13,6 +13,12 @@ $(document).ready(function(){
     console.log("Reset Button Clicked");
     aDeck.reset();
   });
+
+  $("#take").click(function() {
+    console.log("Take Button Clicked");
+    aDeck.take();
+  });
+
 });
 
 //Draw the cards
@@ -69,7 +75,11 @@ deck.prototype.reset = function () { //need to m
 };
 
 deck.prototype.deal = function(name) { //need the player and hand, remove from top
-
+  var newCard = aDeck.cards[0];
+  console.log("dealt card = " + newCard);
+  aDeck.cards.splice(0,1);
+  console.log("cards left = " + aDeck.cards.length);
+  return newCard;
 };
 
 deck.prototype.return = function() { //need the card to add to the end
